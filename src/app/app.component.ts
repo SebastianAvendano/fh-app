@@ -1,13 +1,51 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, effect, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { AuthService, NavigationService } from '@services';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [
+    CommonModule,
+    RouterModule,
+    NzLayoutModule,
+    NzIconModule,
+    NzMenuModule,
+    NzBadgeModule,
+    NzPopoverModule,
+    NzButtonModule,
+    NzCollapseModule,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'fh-app';
+  notifications: any[] = [];
+  user?: any;
+  auth = inject(AuthService);
+  router = inject(NavigationService);
+  isCollapsed: boolean = false;
+
+  constructor() {
+    this.auth.getCurrentUser().subscribe((user) => {
+      this.user = user;
+    });
+  }
+
+  async logout() {
+    await this.auth.logout();
+    this.router.push('/login');
+  }
+
+  resetPassword() {}
+
+  goToNotifications() {}
 }

@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="overlay">
+    <nz-card class="card-login" [nzBordered]="false">
+      <div class="image-container">
+        <img src="../../../assets/images/logo.png" alt="Imagen" class="responsive-image">
+      </div>
+      <form nz-form [formGroup]="loginForm" class="login-form" (ngSubmit)="login()">
+        <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+          <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 24 }">
+            <nz-form-item>
+              <nz-form-control [nzErrorTip]="emailError">
+                <nz-input-group nzPrefixIcon="user">
+                  <input type="text" nz-input formControlName="email" placeholder="Correo electrónico" />
+                </nz-input-group>
+                <ng-template #emailError let-control>
+                  <ng-container *ngIf="control.hasError('required')">Este campo es obligatorio</ng-container>
+                  <ng-container *ngIf="control.hasError('email')">Ingresa un correo válido</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 24 }">
+            <nz-form-item>
+              <nz-form-control [nzErrorTip]="passwordError">
+                <nz-input-group nzPrefixIcon="lock">
+                  <input nz-input formControlName="password" [type]="hidePassword() ? 'password' : 'text'"
+                    placeholder="Contraseña" />
+                  <span nz-icon (click)="togglePasswordVisibility()" [nzType]="hidePassword()? 'eye': 'eye-invisible'"
+                    nzTheme="outline"></span>
+                </nz-input-group>
+                <ng-template #passwordError let-control>
+                  <ng-container *ngIf="control.hasError('required')">Este campo es obligatorio</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div class="forgot-password">
+          <a class="forgot-password" (click)="showModal()">Olvidé mi contraseña</a>
+        </div>
+        <button nz-button class="login-form-button login-form-margin button" nzType='primary' [nzLoading]="isLoading">
+          Ingresar
+        </button>
+      </form>
+    </nz-card>
+  </div>
+</div>
