@@ -11,11 +11,10 @@ const redirectLoggedInToItems = () => redirectLoggedInTo(['']);
 export const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    loadComponent: () => import('./pages/welcome/welcome.component'),
+    loadComponent: () =>
+      import('./pages/users/list-users/list-users.component'),
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToLogin },
-
+    data: { authGuardPipe: redirectLoggedInToItems },
   },
   {
     path: 'login',
@@ -24,15 +23,34 @@ export const routes: Routes = [
     data: { authGuardPipe: redirectLoggedInToItems },
   },
   {
-    path: 'welcome',
-    loadComponent: () => import('./pages/welcome/welcome.component'),
-    canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToLogin },
-  },
-  {
     path: 'recover-pass',
     loadComponent: () => import('./pages/recoverPass/recoverPass.component'),
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+  {
+    path: 'account',
+    loadComponent: () => import('./pages/account/account.component'),
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+  {
+    path: 'admins',
+    loadComponent: () =>
+      import('./pages/users/list-admins/list-admins.component'),
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+  {
+    path: 'clients',
+    loadComponent: () =>
+      import('./pages/users/list-users/list-users.component'),
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./shared/components/not-found/not-found.component'),
   },
 ];

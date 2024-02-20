@@ -3,21 +3,40 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
-  
   private db = inject(AngularFirestore);
+  private auth = inject(AuthService);
 
   async create<T>(collection: string, data: T): Promise<void> {
     const docRef = this.db.collection(collection).doc();
+    const user = this.auth.user;
+
     return docRef.set({
       ...data,
       createdAt: new Date(),
       deleted: false,
       id: docRef.ref.id,
+      createdBy: user()?.id,
+    });
+  }
+
+  async createWhitCustomId<T>(
+    collection: string,
+    data: T,
+    id: string
+  ): Promise<void> {
+    const user = this.auth.user;
+    const item = this.db.collection(collection).doc(id);
+    return item.set({
+      ...data,
+      createdAt: new Date(),
+      deleted: false,
+      createdBy: user()?.id,
     });
   }
 
@@ -38,12 +57,24 @@ export class FirebaseService {
   }
 
   put(collection: string, id: string, data: any) {
+    const user = this.auth.user;
     const itemObservable = this.db.collection(collection).doc(id);
-    return itemObservable.update({ ...data, updatedAt: new Date() });
+
+    return itemObservable.update({
+      ...data,
+      updatedAt: new Date(),
+      updatedBy: user()?.id,
+    });
   }
 
   softDelete(collection: string, id: string) {
     const itemObservable = this.db.collection(collection).doc(id);
-    return itemObservable.update({ deleted: true, deletedAt: new Date() });
+    const user = this.auth.user;
+
+    return itemObservable.update({
+      deleted: true,
+      deletedAt: new Date(),
+      deletedBy: user()?.id,
+    });
   }
 }
