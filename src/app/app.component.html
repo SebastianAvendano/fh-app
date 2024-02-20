@@ -4,30 +4,30 @@
         [nzCollapsed]="isCollapsed" [nzTrigger]="null">
         <div class="sidebar-logo">
             <a href="https://ng.ant.design/" target="_blank">
-                <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
-                <h1>Ant Design Of Angular</h1>
+                <img src="../assets/images/logo.png" alt="logo">
             </a>
         </div>
         <ul nz-menu nzTheme="light" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
             <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
-                        <a routerLink="welcome">Welcome</a>
+                        <a routerLink="admins">Administradores</a>
+                    </li>
+                    <li nz-menu-item nzMatchRouter>
+                        <a routerLink="clients">Clientes</a>
                     </li>
                     <li nz-menu-item nzMatchRouter>
                         <a routerLink="recover-pass">recuperar contraseña</a>
                     </li>
-                    <li nz-menu-item nzMatchRouter>
-                        <a>Workplace</a>
-                    </li>
                 </ul>
             </li>
-            <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
-                <ul>
-                    <li nz-menu-item nzMatchRouter>
-                        <a>Basic Form</a>
-                    </li>
-                </ul>
+            <li nz-menu-item nzMatchRouter routerLink="account">
+                <span nz-icon nzType="user" nzTheme="outline"></span>
+                <span>Mi cuenta</span>
+            </li>
+            <li nz-menu-item (click)="logout()">
+                <span nz-icon nzType="logout" nzTheme="outline"></span>
+                <span>Salir</span>
             </li>
         </ul>
     </nz-sider>
@@ -40,18 +40,16 @@
                     <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
                 </span>
                 <div class="avatar">
-                    <div class="bell">
+                    <!-- <div class="bell">
                         <nz-badge [nzCount]="notifications.length" (click)="goToNotifications()">
                             <span nz-icon nzType="bell"></span>
                         </nz-badge>
-                    </div>
+                    </div> -->
                     <div>
-                        <button nz-button nzType="default" nzShape="round" title="Mi cuenta" (click)="logout()">
-                            <span nz-icon nzType=" user"></span>
-                            <span class="hide-on-mobile">
-                                {{(user?.email ?? '') | uppercase}}
-                            </span>
-                        </button>
+                        <span nz-icon nzType="user"></span>
+                        <span class="hide-on-mobile">
+                            {{(user?.email ?? '') | uppercase}}
+                        </span>
                     </div>
                 </div>
             </div>

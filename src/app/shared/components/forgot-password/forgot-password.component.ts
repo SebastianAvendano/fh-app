@@ -1,4 +1,3 @@
-import { AuthService, ToastService } from '@services';
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -6,6 +5,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { AuthService } from '@services/auth/auth.service';
+import { ToastService } from '@services/customToast/toast.service';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';

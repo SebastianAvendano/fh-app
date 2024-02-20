@@ -8,7 +8,8 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
-import { AuthService, NavigationService } from '@services';
+import { AuthService } from '@services/auth/auth.service';
+import { NavigationService } from '@services/navigation/navigation.service';
 
 @Component({
   selector: 'app-root',
@@ -30,18 +31,18 @@ import { AuthService, NavigationService } from '@services';
 export class AppComponent {
   notifications: any[] = [];
   user?: any;
-  auth = inject(AuthService);
+  #auth = inject(AuthService);
   router = inject(NavigationService);
   isCollapsed: boolean = false;
 
   constructor() {
-    this.auth.getCurrentUser().subscribe((user) => {
+    this.#auth.getCurrentUser().subscribe((user) => {
       this.user = user;
     });
   }
 
   async logout() {
-    await this.auth.logout();
+    await this.#auth.logout();
     this.router.push('/login');
   }
 

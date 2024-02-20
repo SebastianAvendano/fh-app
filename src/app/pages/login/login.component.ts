@@ -12,8 +12,10 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-import { AuthService, NavigationService, ToastService } from '@services';
-import { ForgotPasswordComponent } from '@shared/components';
+import { AuthService } from '@services/auth/auth.service';
+import { ToastService } from '@services/customToast/toast.service';
+import { NavigationService } from '@services/navigation/navigation.service';
+import { ForgotPasswordComponent } from '@shared/components/forgot-password/forgot-password.component';
 
 @Component({
   selector: 'app-login',
