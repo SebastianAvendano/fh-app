@@ -59,7 +59,7 @@ export default class LoginComponent {
     await this.#auth
       .login(this.loginForm.value.email, this.loginForm.value.password)
       .then(() => {
-        this.router.push('/welcome');
+        this.router.push('');
       })
       .catch(() => {
         this.customToast.showToast('error', 'Credenciales inválidas');
