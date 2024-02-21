@@ -14,7 +14,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/users/list-users/list-users.component'),
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectLoggedInToItems },
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
   {
     path: 'login',
