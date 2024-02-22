@@ -13,4 +13,4 @@ export const roles: TFiltersTable[] = [
 ];
 
 export const BASE_PATH =
-  'https://us-central1-fh-app-dev-da547.cloudfunctions.net/app';
+  'https://us-central1-fh-fotocopiadoras-del-huila.cloudfunctions.net/app';

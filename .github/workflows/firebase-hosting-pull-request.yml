@@ -32,3 +32,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FH_FOTOCOPIADORAS_DEL_HUILA }}'
           projectId: fh-fotocopiadoras-del-huila
+          chanel: live
