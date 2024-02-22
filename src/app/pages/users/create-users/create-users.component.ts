@@ -76,19 +76,16 @@ export class CreateUsersComponent {
     }
   }
 
-  private createUser() {
-    const user = UserModel.fromJson(this.userForm.value);
-
-    this.userService.createAccount(user).then((credential) => {
-      const uid = credential.user?.uid;
-
-      if (uid) {
-        this.userService.createUser(user.copyWith({ id: uid }));
-        this.customToast.showToast('success', 'Usuario creado con exito');
+  private async createUser() {
+    this.userService.createUser(this.userForm.value).subscribe((res: any) => {
+      console.log(res);
+      if (res.status == 200) {
+        this.customToast.showToast('error', res.error);
       } else {
-        credential.user?.delete();
-        this.customToast.showToast('error', 'Ocurrio un error inesperado');
+        this.customToast.showToast('success', res.message);
       }
+
+      this.loading = false;
     });
   }
 

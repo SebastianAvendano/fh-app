@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
+import { BASE_PATH } from '@constants';
 import { UserModel } from '@models/user-model';
 import { AuthService } from '@services/auth/auth.service';
 import { FirebaseService } from '@services/firebase/firebase.service';
@@ -16,6 +18,7 @@ export class UsersService {
 
   private auth = inject(AuthService);
   private firebase = inject(FirebaseService);
+  private http = inject(HttpClient);
 
   #state = signal<state>({
     loading: true,
@@ -39,16 +42,13 @@ export class UsersService {
       });
   }
 
-  async createUser(data: UserModel) {
-    return this.firebase.createWhitCustomId(
-      this.usersCollection,
-      data.toJson(),
-      data.id!
-    );
-  }
-
-  async createAccount(user: UserModel) {
-    return this.auth.createAuth(user.email!, user.documentId!);
+  createUser(data: any) {
+    const user = this.auth.user;
+    return this.http.post(`${BASE_PATH}/users`, {
+      ...data,
+      deleted: false,
+      createdBy: user()?.id,
+    });
   }
 
   async updateUser(data: any, id: string) {
