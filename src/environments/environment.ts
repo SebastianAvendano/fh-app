@@ -1,12 +1,12 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: 'AIzaSyDgfyMfeCoz6DgM_mnZf8molmGCAPEBYpw',
-    authDomain: 'fh-app-dev-da547.firebaseapp.com',
-    projectId: 'fh-app-dev-da547',
-    storageBucket: 'fh-app-dev-da547.appspot.com',
-    messagingSenderId: '454759236598',
-    appId: '1:454759236598:web:774fd764ce4d027978fdd7',
-    measurementId: 'G-R10DF5ZNQR',
+    apiKey: "AIzaSyB9GMgtNBXvokdtA72JA_VaS2It8C6gUNo",
+    authDomain: "fh-fotocopiadoras-del-huila.firebaseapp.com",
+    projectId: "fh-fotocopiadoras-del-huila",
+    storageBucket: "fh-fotocopiadoras-del-huila.appspot.com",
+    messagingSenderId: "335462877235",
+    appId: "1:335462877235:web:c6979406c090d1e8ff3b46",
+    measurementId: "G-G7R2H6RZ03"
   },
 };

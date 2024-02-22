@@ -18,6 +18,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { UserModel } from '@models/user-model';
 import { UsersService } from '@services/users/users.service';
 import { ToastService } from '@services/customToast/toast.service';
+import { catchError, finalize, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-create-users',
@@ -77,16 +78,24 @@ export class CreateUsersComponent {
   }
 
   private async createUser() {
-    this.userService.createUser(this.userForm.value).subscribe((res: any) => {
-      console.log(res);
-      if (res.status == 200) {
-        this.customToast.showToast('error', res.error);
-      } else {
-        this.customToast.showToast('success', res.message);
-      }
-
-      this.loading = false;
-    });
+    this.userService
+      .createUser(this.userForm.value)
+      .pipe(
+        catchError((error) => {
+          this.customToast.showToast('error', error.error);
+          return of(null);
+        }),
+        tap(async (res: any) => {
+          if (res != null) {
+            await this.customToast.showToast('success', res.message);
+            this.destroyModal();
+          }
+        }),
+        finalize(() => {
+          this.loadingButton = false;
+        })
+      )
+      .subscribe();
   }
 
   destroyModal(): void {
