@@ -1,16 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, effect, OnInit } from '@angular/core';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-import { NzTableModule } from 'ng-zorro-antd/table';
-import { CreateUsersComponent } from '../form_admin/create-admin.component';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { UserModel } from '@models/user-model';
 import { UsersService } from '@services/users/users.service';
-import { FormsModule } from '@angular/forms';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 @Component({
-  selector: 'app-list-admins',
+  selector: 'app-list-clients',
   standalone: true,
   imports: [
     CommonModule,
@@ -20,9 +19,9 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzModalModule,
     NzTableModule,
   ],
-  templateUrl: './list-admins.component.html',
+  templateUrl: './list-clients.component.html',
 })
-export default class ListAdminsComponent implements OnInit {
+export default class ListClientsComponent implements OnInit {
   users: UserModel[] = [];
   loading: boolean = false;
 
@@ -71,47 +70,13 @@ export default class ListAdminsComponent implements OnInit {
   searchName: string = '';
   searchId: string = '';
   searchEmail: string = '';
-  modalService = inject(NzModalService);
   userService = inject(UsersService);
 
-  constructor() {
-    this.userService.getAdmins();
-    effect(() => {
-      this.users = this.userService.users();
-      this.loading = this.userService.loading();
-    });
-  }
+  constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit() {}
 
-  filterList() {}
+  createUser() {}
 
-  createUser(): void {
-    this.showModal('Crear nuevo usuario');
-  }
-
-  updateUser(user: UserModel): void {
-    this.showModal('Actualizar información', true, user);
-  }
-
-  private showModal(
-    title: string,
-    isEditing?: boolean,
-    user?: UserModel
-  ): void {
-    const modal = this.modalService.create({
-      nzTitle: title,
-      nzWidth: '60%',
-      nzCentered: true,
-      nzData: {
-        isEditing: isEditing,
-        user: user,
-      },
-      nzContent: CreateUsersComponent,
-    });
-    const instance = modal.getContentComponent();
-    instance.isEditing = isEditing;
-    instance.user = user;
-  }
-  
+  updateUser(user: UserModel) {}
 }
