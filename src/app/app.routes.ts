@@ -12,7 +12,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./pages/users/list-users/list-users.component'),
+      import('./pages/admins/list_admins/list-admins.component'),
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
@@ -37,14 +37,7 @@ export const routes: Routes = [
   {
     path: 'admins',
     loadComponent: () =>
-      import('./pages/users/list-admins/list-admins.component'),
-    canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToLogin },
-  },
-  {
-    path: 'clients',
-    loadComponent: () =>
-      import('./pages/users/list-users/list-users.component'),
+      import('./pages/admins/list_admins/list-admins.component'),
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },

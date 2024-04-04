@@ -4,11 +4,21 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
 import { AuthService } from '../auth/auth.service';
+import {
+  Firestore,
+  collection,
+  collectionData,
+  orderBy,
+  query,
+  where,
+} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
+  private firestore = inject(Firestore);
+
   private db = inject(AngularFirestore);
   private auth = inject(AuthService);
 
@@ -56,10 +66,20 @@ export class FirebaseService {
       .where('deleted', '==', false);
   }
 
+  getDocs<T>(collectionName: string) {
+    const ref = collection(this.firestore, collectionName);
+    const wa = [orderBy('createdAt', 'desc'), where("deleted", "==", false)]
+
+    const refq = query(ref, ...wa);
+
+     return collectionData(refq) 
+  }
+
   put(collection: string, id: string, data: any) {
     const user = this.auth.user;
     const itemObservable = this.db.collection(collection).doc(id);
 
+    console.log(user()?.id)
     return itemObservable.update({
       ...data,
       updatedAt: new Date(),

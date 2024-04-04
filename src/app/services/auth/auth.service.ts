@@ -25,7 +25,7 @@ export class AuthService {
   constructor() {
     this.afAuth.user.subscribe((user) => {
       this.db
-        .collection('users')
+        .collection('admins')
         .doc(user?.uid)
         .valueChanges()
         .subscribe((snap) => {

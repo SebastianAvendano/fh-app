@@ -20,17 +20,17 @@ export class UsersService {
   private firebase = inject(FirebaseService);
   private http = inject(HttpClient);
 
-  #state = signal<state>({
+  state = signal<state>({
     loading: true,
     users: [],
   });
 
-  public users = computed(() => this.#state().users);
-  public loading = computed(() => this.#state().loading);
+  public users = computed(() => this.state().users);
+  public loading = computed(() => this.state().loading);
 
   constructor() {}
 
-  getUsersByRol(rol: string) {
+  getClients(rol: string) {
     this.firebase
       .getList(this.usersCollection)
       .where('rol', '==', rol)
@@ -38,8 +38,18 @@ export class UsersService {
         const users = querySnapshot.docs.map((snapshot) => {
           return UserModel.fromJson(snapshot.data());
         });
-        this.#state.set({ users: users, loading: false });
+        this.state.set({ users: users, loading: false });
       });
+  }
+
+  getAdmins() {
+    return this.firebase.getDocs('admins').subscribe((docs) => {
+      const users = docs.map((snapshot) => {
+        return UserModel.fromJson(snapshot);
+      });
+      this.state.set({ users: users, loading: false });
+      console.log('a');
+    });
   }
 
   createUser(data: any) {
@@ -53,5 +63,9 @@ export class UsersService {
 
   async updateUser(data: any, id: string) {
     return this.firebase.put(this.usersCollection, id, data);
+  }
+
+  async updateAdmin(data: any, id: string) {
+    return this.firebase.put("admins", id, data);
   }
 }
