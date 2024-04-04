@@ -8,7 +8,6 @@ export const documentTypes: TFiltersTable[] = [
 
 export const roles: TFiltersTable[] = [
   { text: 'Administrador', value: 'admin' },
-  { text: 'Cliente', value: 'client' },
   { text: 'Tecnico', value: 'technical' },
 ];
 

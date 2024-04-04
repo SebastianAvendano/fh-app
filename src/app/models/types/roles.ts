@@ -1,0 +1,1 @@
+export type TRol = "admin" | "client" | "client";
