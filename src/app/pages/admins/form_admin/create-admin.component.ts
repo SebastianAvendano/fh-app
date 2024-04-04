@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -19,6 +19,8 @@ import { UserModel } from '@models/user-model';
 import { UsersService } from '@services/users/users.service';
 import { ToastService } from '@services/customToast/toast.service';
 import { catchError, finalize, of, tap } from 'rxjs';
+import { TFiltersTable } from '@models/types/filters';
+import { FirebaseError } from '@angular/fire/app';
 
 @Component({
   selector: 'app-create-users',
@@ -34,17 +36,16 @@ import { catchError, finalize, of, tap } from 'rxjs';
     NzInputModule,
     NzButtonModule,
   ],
-  templateUrl: './create-users.component.html',
+  templateUrl: './create-admin.component.html',
 })
-export class CreateUsersComponent {
+export class CreateUsersComponent implements OnInit {
   userForm!: FormGroup;
   isEditing?: boolean;
   user?: UserModel;
-  loading?: boolean;
   loadingButton?: boolean;
-
+  roles?: TFiltersTable[] = roles;
   documentTypes = documentTypes;
-  roles = roles;
+
   private modal = inject(NzModalRef);
   private fb = inject(FormBuilder);
   private userService = inject(UsersService);
@@ -63,11 +64,18 @@ export class CreateUsersComponent {
     });
   }
 
+  ngOnInit(): void {
+    if (this.isEditing) {
+      this.userForm.patchValue(this.user!);
+      this.userForm.get('email')?.disable();
+    }
+  }
+
   validateAction(): void {
     this.loadingButton = true;
     if (this.userForm.valid) {
       if (this.isEditing) {
-        // this.updateUser(this.user!);
+        this.updateUser();
       } else {
         this.createUser();
       }
@@ -96,6 +104,21 @@ export class CreateUsersComponent {
         })
       )
       .subscribe();
+  }
+
+  private async updateUser() {
+    await this.userService
+      .updateAdmin(this.userForm.value, this.user?.id!)
+      .then(() => {
+        this.customToast.showToast(
+          'success',
+          'Información actualizada con exito'
+        );
+      })
+      .catch((error: FirebaseError) => {
+        this.customToast.showToast('error', error.message);
+      });
+    this.loadingButton = false;
   }
 
   destroyModal(): void {
