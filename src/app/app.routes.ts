@@ -42,6 +42,13 @@ export const routes: Routes = [
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
   {
+    path: 'clients',
+    loadComponent: () =>
+      import('./pages/clients/list-clients/list-clients.component'),
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+  {
     path: '**',
     loadComponent: () =>
       import('./shared/components/not-found/not-found.component'),
