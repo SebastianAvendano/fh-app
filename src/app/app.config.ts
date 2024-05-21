@@ -15,6 +15,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 
 import { environment } from '../environments/environment';
+import { FirebaseService } from '@services/firebase/firebase.service';
 
 registerLocaleData(es);
 
@@ -32,6 +33,7 @@ export const appConfig: ApplicationConfig = {
       AngularFireModule.initializeApp(environment.firebaseConfig),
       provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
       provideFirestore(() => getFirestore()),
+      FirebaseService,
     ]),
     provideAnimations(),
   ],

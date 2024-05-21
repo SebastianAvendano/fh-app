@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h1 class="page-title">Equipos</h1>
+  <button nz-button nzType="primary" (click)="createEquipment()" class="button">Crear equipo</button>
+</div>
+
+<div class="table-container">
+  <nz-table #table nzSize='small' [nzData]="equipments" [nzLoading]="loading" [nzPageSize]="10" class="nzTableResponsive"
+    nzBordered nzTableLayout="fixed">
+    <thead>
+      <tr>
+        <th *ngFor="let column of listOfColumns; let indexElement = index" [nzSortOrder]="column.sortOrder"
+          [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+          [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter" [nzFilterFn]="column.filterFn"
+          nzAlign="center" [nzWidth]="column.width" nzEllipsis>
+          {{ column.name }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let equipment of table.data, let i = index">
+        <td nzAlign="center" nzEllipsis>
+          {{equipment.serial | titlecase }}
+        </td>
+        <td nzAlign="center" nzEllipsis>
+          {{equipment.model | titlecase }}
+        </td>
+        <td nzAlign="center" nzEllipsis>
+          {{equipment.brand | titlecase }}
+        </td>
+        <td nzAlign="center" clas="btn-actions">
+          <button nz-button nzType="link" (click)="updateEquipment(equipment)" class="button">
+            Editar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

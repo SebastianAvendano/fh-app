@@ -1,0 +1,71 @@
+<form nz-form [formGroup]="suppliesForm" nzLayout="vertical">
+  <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 16, lg: 16 }">
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
+      <nz-form-item>
+        <nz-form-label nzFor="serial" nzRequired>Serial</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorTip">
+          <input nz-input id="serial" formControlName="serial" placeholder="Serial" #displayName />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
+      <nz-form-item>
+        <nz-form-label nzFor="model" nzRequired>Model</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorTip">
+          <input nz-input formControlName="model" id="model" placeholder="Model" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
+      <nz-form-item>
+        <nz-form-label nzFor="brand" nzRequired>Marca</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorTip">
+          <input nz-input formControlName="brand" id="brand" placeholder="Marca" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
+      <nz-form-item>
+        <nz-form-label nzFor="saleValue" nzRequired>Valor venta</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorTip">
+          <input nz-input type="number" formControlName="saleValue" id="saleValue" placeholder="Valor renta" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
+      <nz-form-item>
+        <nz-form-label nzFor="availableStock" nzRequired>Stock disponible</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorTip">
+          <input nz-input type="number" formControlName="availableStock" id="availableStock" placeholder="Stock disponible" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
+      <nz-form-item>
+        <nz-form-label nzFor="securityStock" nzRequired>Stock de seguridad</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorTip">
+          <input nz-input type="number" formControlName="securityStock" id="securityStock" placeholder="Stock de seguridad" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <ng-template #errorTip let-control>
+    <ng-container *ngIf="control.hasError('required')">Este campo es
+      obligatorio</ng-container>
+    <ng-container *ngIf="control.hasError('pattern')">formato de texto
+      invalido</ng-container>
+    <ng-container *ngIf="control.hasError('email')">Ingresa un correo válido</ng-container>
+  </ng-template>
+</form>
+<div *nzModalFooter>
+  @if (supplies){
+  <div>
+    <span style="float:left;">Fecha de Creación: {{supplies.createdAt | date: 'dd/MM/YYYY h:mm a'}}</span>
+  </div>
+  }
+
+  <button nz-button nzType="default" (click)="destroyModal()">Cancelar</button>
+  <button nz-button nzType="primary" (click)="validateAction()" [nzLoading]="loadingButton">
+    {{ isEditing ? "Actualizar" : "Crear" }}
+  </button>
+</div>

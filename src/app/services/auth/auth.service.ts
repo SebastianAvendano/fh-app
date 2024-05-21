@@ -2,9 +2,8 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable } from 'rxjs';
 import firebase from 'firebase/compat/app';
-import { FirebaseService } from '@services/firebase/firebase.service';
-import { UserModel } from '@models/user-model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { UserModel } from '@models/models/user-model';
 
 interface state {
   user: UserModel | null;
@@ -25,7 +24,7 @@ export class AuthService {
   constructor() {
     this.afAuth.user.subscribe((user) => {
       this.db
-        .collection('admins')
+        .collection('users')
         .doc(user?.uid)
         .valueChanges()
         .subscribe((snap) => {

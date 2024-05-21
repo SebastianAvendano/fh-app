@@ -1,4 +1,4 @@
-import { IUser } from './interfaces/user-interface';
+import { IUser } from '../interfaces/user-interface';
 
 export class UserModel {
   public name?: string;
@@ -13,6 +13,7 @@ export class UserModel {
   public createdAt?: Date;
   public updatedAt?: Date;
   public deleted?: boolean;
+
 
   constructor({
     name,
