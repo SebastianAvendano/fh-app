@@ -6,7 +6,7 @@
       "@styles": ["./src/styles.scss"],
       "@services/*": ["./src/app/services/*"],
       "@shared/*": ["./src/app/shared/*"],
-      "@models/*": ["./src/app/models/*"],
+      "@models/*": ["./src/app/data/*"],
       "@constants": ["./src/app/constants"],
     },
     "outDir": "./dist/out-tsc",

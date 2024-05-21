@@ -12,7 +12,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./pages/admins/list_admins/list-admins.component'),
+      import('./pages/account/account.component'),
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
@@ -35,16 +35,27 @@ export const routes: Routes = [
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
   {
-    path: 'admins',
+    path: 'users/:userType',
     loadComponent: () =>
-      import('./pages/admins/list_admins/list-admins.component'),
+      import('./pages/users/list-user/list-user.component'),
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
   {
-    path: 'clients',
-    loadComponent: () =>
-      import('./pages/clients/list-clients/list-clients.component'),
+    path: 'equipments',
+    loadComponent: () => import('./pages/equipment/list-equipments/list-equipments.component'),
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+  {
+    path: 'supplies',
+    loadComponent: () => import('./pages/supplies/list-supplies/list-supplies.component'),
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+  {
+    path: 'maintenances',
+    loadComponent: () => import('./pages/maintenence/calendar/calendar.component'),
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },

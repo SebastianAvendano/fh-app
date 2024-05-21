@@ -6,7 +6,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { UserModel } from '@models/user-model';
 import { AuthService } from '@services/auth/auth.service';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -18,6 +17,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { documentTypes, roles } from '@constants';
 import { UsersService } from '@services/users/users.service';
 import { ToastService } from '@services/customToast/toast.service';
+import { UserModel } from '@models/models/user-model';
 
 @Component({
   selector: 'app-account',

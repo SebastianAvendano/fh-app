@@ -1,13 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, effect, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  effect,
+  OnInit,
+  NgZone,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { CreateUsersComponent } from '../form_admin/create-admin.component';
-import { UserModel } from '@models/user-model';
-import { UsersService } from '@services/users/users.service';
 import { FormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { CreateUsersComponent } from '../create-user/create-user.component';
+import { ActivatedRoute } from '@angular/router';
+import { UsersService } from '@services/users/users.service';
+import { validateRol } from '@shared/utils/validate_rol';
+import { UserModel } from '@models/models/user-model';
 
 @Component({
   selector: 'app-list-admins',
@@ -20,11 +29,11 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzModalModule,
     NzTableModule,
   ],
-  templateUrl: './list-admins.component.html',
+  templateUrl: './list-user.component.html',
 })
-export default class ListAdminsComponent implements OnInit {
+export default class ListUsersComponent implements OnInit {
   users: UserModel[] = [];
-  loading: boolean = false;
+  loading: boolean = true;
 
   listOfColumns: any[] = [
     {
@@ -68,23 +77,37 @@ export default class ListAdminsComponent implements OnInit {
     },
   ];
 
-  searchName: string = '';
-  searchId: string = '';
-  searchEmail: string = '';
+  userType?: string | null;
   modalService = inject(NzModalService);
   userService = inject(UsersService);
+  route = inject(ActivatedRoute);
+  ngZone = inject(NgZone);
+  cdr = inject(ChangeDetectorRef);
 
-  constructor() {
-    this.userService.getAdmins();
-    effect(() => {
-      this.users = this.userService.users();
-      this.loading = this.userService.loading();
+  rol?: string;
+
+  constructor() {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.rol = params.get('userType')!;
+      this.userType = validateRol(this.rol!);
+      this.getUsers(this.rol!);
     });
   }
 
-  ngOnInit(): void {}
-
-  filterList() {}
+  async getUsers(rol: string) {
+    this.userService.getUsersByRol(rol).onSnapshot(
+      (query) =>
+        (this.users = query.docs.map((snapshot) => {
+          return UserModel.fromJson(snapshot.data());
+        }))
+    );
+    this.loading = false;
+    this.ngZone.run(() => {
+      this.cdr.detectChanges();
+    });
+  }
 
   createUser(): void {
     this.showModal('Crear nuevo usuario');
@@ -112,6 +135,6 @@ export default class ListAdminsComponent implements OnInit {
     const instance = modal.getContentComponent();
     instance.isEditing = isEditing;
     instance.user = user;
+    instance.userType = this.rol;
   }
-  
 }

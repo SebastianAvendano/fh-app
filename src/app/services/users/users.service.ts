@@ -1,14 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, inject, } from '@angular/core';
 import { BASE_PATH } from '@constants';
-import { UserModel } from '@models/user-model';
 import { AuthService } from '@services/auth/auth.service';
 import { FirebaseService } from '@services/firebase/firebase.service';
 
-interface state {
-  loading: boolean;
-  users: UserModel[];
-}
 
 @Injectable({
   providedIn: 'root',
@@ -20,36 +15,10 @@ export class UsersService {
   private firebase = inject(FirebaseService);
   private http = inject(HttpClient);
 
-  state = signal<state>({
-    loading: true,
-    users: [],
-  });
-
-  public users = computed(() => this.state().users);
-  public loading = computed(() => this.state().loading);
-
   constructor() {}
 
-  getClients(rol: string) {
-    this.firebase
-      .getList(this.usersCollection)
-      .where('rol', '==', rol)
-      .onSnapshot((querySnapshot) => {
-        const users = querySnapshot.docs.map((snapshot) => {
-          return UserModel.fromJson(snapshot.data());
-        });
-        this.state.set({ users: users, loading: false });
-      });
-  }
-
-  getAdmins() {
-    return this.firebase.getDocs('admins').subscribe((docs) => {
-      const users = docs.map((snapshot) => {
-        return UserModel.fromJson(snapshot);
-      });
-      this.state.set({ users: users, loading: false });
-      console.log('a');
-    });
+  getUsersByRol(rol: string) {
+    return this.firebase.getList(this.usersCollection).where('rol', '==', rol);
   }
 
   createUser(data: any) {
@@ -63,9 +32,5 @@ export class UsersService {
 
   async updateUser(data: any, id: string) {
     return this.firebase.put(this.usersCollection, id, data);
-  }
-
-  async updateAdmin(data: any, id: string) {
-    return this.firebase.put("admins", id, data);
   }
 }

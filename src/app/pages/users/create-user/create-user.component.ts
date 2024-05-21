@@ -15,12 +15,12 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { documentTypes, roles } from '@constants';
 import { handleErrorForm } from '@shared/utils/handle_error_form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { UserModel } from '@models/user-model';
 import { UsersService } from '@services/users/users.service';
 import { ToastService } from '@services/customToast/toast.service';
 import { catchError, finalize, of, tap } from 'rxjs';
-import { TFiltersTable } from '@models/types/filters';
+import { TFiltersTable } from '../../../data/types/filters';
 import { FirebaseError } from '@angular/fire/app';
+import { UserModel } from '@models/models/user-model';
 
 @Component({
   selector: 'app-create-users',
@@ -36,7 +36,7 @@ import { FirebaseError } from '@angular/fire/app';
     NzInputModule,
     NzButtonModule,
   ],
-  templateUrl: './create-admin.component.html',
+  templateUrl: './create-user.component.html',
 })
 export class CreateUsersComponent implements OnInit {
   userForm!: FormGroup;
@@ -45,6 +45,7 @@ export class CreateUsersComponent implements OnInit {
   loadingButton?: boolean;
   roles?: TFiltersTable[] = roles;
   documentTypes = documentTypes;
+  userType?: string;
 
   private modal = inject(NzModalRef);
   private fb = inject(FormBuilder);
@@ -69,6 +70,9 @@ export class CreateUsersComponent implements OnInit {
       this.userForm.patchValue(this.user!);
       this.userForm.get('email')?.disable();
     }
+      if (this.userType == "client") {
+        this.roles = roles.filter((value) => value.value == "client")
+      }
   }
 
   validateAction(): void {
@@ -108,12 +112,13 @@ export class CreateUsersComponent implements OnInit {
 
   private async updateUser() {
     await this.userService
-      .updateAdmin(this.userForm.value, this.user?.id!)
+      .updateUser(this.userForm.value, this.user?.id!)
       .then(() => {
         this.customToast.showToast(
           'success',
           'Información actualizada con exito'
         );
+        this.destroyModal();
       })
       .catch((error: FirebaseError) => {
         this.customToast.showToast('error', error.message);

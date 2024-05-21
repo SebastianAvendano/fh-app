@@ -3,20 +3,32 @@
     <nz-sider class="menu-sidebar" nzTheme="light" nzCollapsible nzWidth="256px" nzBreakpoint="md"
         [nzCollapsed]="isCollapsed" [nzTrigger]="null">
         <div class="sidebar-logo">
-            <a href="https://ng.ant.design/" target="_blank">
                 <img src="../assets/images/logo.png" alt="logo">
-            </a>
         </div>
         <ul nz-menu nzTheme="light" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-            <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+            <li nz-submenu nzOpen nzTitle="Usuarios" nzIcon="usergroup-add">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
-                        <a routerLink="admins">Administradores</a>
+                        <a [routerLink]="['/users', 'admin']">Administradores</a>
                     </li>
                     <li nz-menu-item nzMatchRouter>
-                        <a routerLink="clients">Clientes</a>
+                        <a [routerLink]="['/users', 'client']">Clientes</a>
                     </li>
                 </ul>
+            </li>
+            <li nz-submenu nzOpen nzTitle="Equipos" nzIcon="printer">
+                <ul>
+                    <li nz-menu-item nzMatchRouter>
+                        <a routerLink="equipments">Equipos</a>
+                    </li>
+                    <li nz-menu-item nzMatchRouter>
+                        <a routerLink="supplies">Insumos</a>
+                    </li>
+                </ul>
+            </li>
+            <li nz-menu-item nzMatchRouter routerLink="maintenances">
+                <span nz-icon nzType="tool" nzTheme="outline"></span>
+                <span>Visitas tecnicas</span>
             </li>
             <li nz-menu-item nzMatchRouter routerLink="account">
                 <span nz-icon nzType="user" nzTheme="outline"></span>

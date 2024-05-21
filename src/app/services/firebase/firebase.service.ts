@@ -79,7 +79,6 @@ export class FirebaseService {
     const user = this.auth.user;
     const itemObservable = this.db.collection(collection).doc(id);
 
-    console.log(user()?.id)
     return itemObservable.update({
       ...data,
       updatedAt: new Date(),

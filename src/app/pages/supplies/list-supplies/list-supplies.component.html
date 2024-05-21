@@ -1,0 +1,41 @@
+<div class="page-header">
+  <h1 class="page-title">Insumos</h1>
+  <button nz-button nzType="primary" (click)="createSupplies()" class="button">Crear producto</button>
+</div>
+
+<div class="table-container">
+  <nz-table #table nzSize='small' [nzData]="supplies" [nzLoading]="loading" [nzPageSize]="5" class="nzTableResponsive"
+    nzBordered nzTableLayout="fixed">
+    <thead>
+      <tr>
+        <th *ngFor="let column of listOfColumns; let indexElement = index" [nzSortOrder]="column.sortOrder"
+          [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+          [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter" [nzFilterFn]="column.filterFn"
+          nzAlign="center" [nzWidth]="column.width" nzEllipsis>
+          {{ column.name }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let supplies of table.data, let i = index">
+        <td nzAlign="center" nzEllipsis>
+          {{supplies.serial | titlecase }}
+        </td>
+        <td nzAlign="center" nzEllipsis>
+          {{supplies.model | titlecase }}
+        </td>
+        <td nzAlign="center" nzEllipsis>
+          {{supplies.brand | titlecase }}
+        </td>
+        <td nzAlign="center" nzEllipsis>
+          {{supplies.availableStock }}
+        </td>
+        <td nzAlign="center" clas="btn-actions">
+          <button nz-button nzType="link" (click)="updateSupplies(supplies)" class="button">
+            Editar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

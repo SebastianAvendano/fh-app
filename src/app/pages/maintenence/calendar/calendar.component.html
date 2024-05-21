@@ -1,0 +1,41 @@
+<div class="page-header">
+  <h1 class="page-title">Visitas técnicas</h1>
+  <button nz-button nzType="primary" (click)="handleScheduleAppointment()" class="button">Agendar cita</button>
+</div>
+
+<nz-calendar>
+  <ul *nzDateCell="let date" class="events">
+    @switch (date.getDate()) {
+      @case (8) {
+        @for (item of listDataMap.eight; track $index) {
+          <li>
+            <nz-badge [nzStatus]="item.type" [nzText]="item.content"></nz-badge>
+          </li>
+        }
+      }
+      @case (10) {
+        @for (item of listDataMap.ten; track $index) {
+          <li>
+            <nz-badge [nzStatus]="item.type" [nzText]="item.content"></nz-badge>
+          </li>
+        }
+      }
+    }
+  </ul>
+  <ng-container *nzMonthCell="let month">
+    @if (getMonthData(month); as monthData) {
+      <div class="notes-month">
+        <section>{{ monthData }}</section>
+        <span>Backlog number</span>
+      </div>
+    }
+  </ng-container>
+</nz-calendar>
+
+<nz-modal [(nzVisible)]="isModalVisible" nzTitle="Agendamientos" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <ul>
+      <li *ngFor="let visit of technicalVisits">{{ visit.client }} - {{ visit.address }} - {{ visit.startTime | date: 'shortTime' }} - {{ visit.endTime | date: 'shortTime' }}</li>
+    </ul>
+  </ng-container>
+</nz-modal>
