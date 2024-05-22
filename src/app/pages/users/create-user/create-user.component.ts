@@ -21,9 +21,11 @@ import { catchError, finalize, of, tap } from 'rxjs';
 import { TFiltersTable } from '../../../data/types/filters';
 import { FirebaseError } from '@angular/fire/app';
 import { UserModel } from '@models/models/user-model';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { EquipmentModel } from '@models/models/equipment-model';
+import { EquipmentService } from '@services/equipment/equipment.service';
 
 @Component({
-  selector: 'app-create-users',
   standalone: true,
   imports: [
     CommonModule,
@@ -35,7 +37,9 @@ import { UserModel } from '@models/models/user-model';
     NzGridModule,
     NzInputModule,
     NzButtonModule,
+    NzTabsModule,
   ],
+  selector: 'app-create-users',
   templateUrl: './create-user.component.html',
 })
 export class CreateUsersComponent implements OnInit {
@@ -47,10 +51,12 @@ export class CreateUsersComponent implements OnInit {
   documentTypes = documentTypes;
   userType?: string;
 
+  equipments: EquipmentModel[] = [];
   private modal = inject(NzModalRef);
   private fb = inject(FormBuilder);
   private userService = inject(UsersService);
   private customToast = inject(ToastService);
+  private equipmentsService = inject(EquipmentService);
 
   constructor() {
     this.userForm = this.fb.group({
@@ -62,17 +68,42 @@ export class CreateUsersComponent implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       rol: [null, [Validators.required]],
       address: [null, [Validators.required]],
+      equipments: [null, [Validators.required]],
     });
   }
-
+  
   ngOnInit(): void {
-    if (this.isEditing) {
-      this.userForm.patchValue(this.user!);
-      this.userForm.get('email')?.disable();
-    }
-      if (this.userType == "client") {
-        this.roles = roles.filter((value) => value.value == "client")
+    this.loadInitialData();
+  }
+
+  loadInitialData(): void {
+    this.equipmentsService.getEquipments().onSnapshot((query) => {
+      this.equipments = query.docs.map((snapshot) => {
+        return EquipmentModel.fromJson(snapshot.data())
+      });
+      if (this.isEditing) {
+        this.userForm.patchValue(this.user!);
+        this.userForm.get('email')?.disable();
       }
+      if (this.userType === 'client') {
+        this.roles = roles.filter((value) => value.value === 'client');
+      }
+    });
+  }
+   
+  getEquipments(){
+    this.equipmentsService.getEquipments().onSnapshot((query) => {
+      this.equipments = query.docs.map((snapshot) => {
+        return EquipmentModel.fromJson(snapshot.data())
+      })
+      if (this.isEditing) {
+        this.userForm.patchValue(this.user!);
+        this.userForm.get('email')?.disable();
+      }
+      if (this.userType == 'client') {
+        this.roles = roles.filter((value) => value.value == 'client');
+      }
+    })
   }
 
   validateAction(): void {

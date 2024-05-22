@@ -11,4 +11,5 @@ export interface IUser {
   updatedAt?: Date;
   deleted?: boolean;
   id?: string;
+  equipments?: string[];
 }

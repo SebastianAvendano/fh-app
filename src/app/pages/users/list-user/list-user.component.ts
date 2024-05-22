@@ -97,15 +97,14 @@ export default class ListUsersComponent implements OnInit {
   }
 
   async getUsers(rol: string) {
-    this.userService.getUsersByRol(rol).onSnapshot(
-      (query) =>
-        (this.users = query.docs.map((snapshot) => {
-          return UserModel.fromJson(snapshot.data());
-        }))
-    );
-    this.loading = false;
-    this.ngZone.run(() => {
-      this.cdr.detectChanges();
+    this.userService.getUsersByRol(rol).onSnapshot((query) => {
+      this.users = query.docs.map((snapshot) => {
+        return UserModel.fromJson(snapshot.data());
+      });
+      this.loading = false;
+      this.ngZone.run(() => {
+        this.cdr.detectChanges();
+      });
     });
   }
 

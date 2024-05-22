@@ -1,0 +1,59 @@
+<form nz-form [formGroup]="salesForm" nzLayout="vertical">
+  <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 16, lg: 16 }">
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 12 }">
+      <nz-form-item>
+        <nz-form-label nzFor="client" nzRequired>Cliente</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorTip">
+          <nz-select nzId="client" formControlName="client" nzPlaceHolder="selecciona un cliente" (ngModelChange)="null">
+            <nz-option [nzValue]="client.id" *ngFor="let client of clients" [nzLabel]="client.name + ' ' + client.lastName!"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 12 }">
+      <nz-form-item>
+        <nz-form-label nzFor="rol" nzRequired>Equipos</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorTip">
+          <nz-select nzId="equipments" formControlName="equipments" [nzShowSearch]="true" nzPlaceHolder="Seleccionar" nzMode="multiple"  (ngModelChange)="calculateTotal()">
+            <nz-option [nzValue]="isEditing ? equipment.id : equipment" *ngFor="let equipment of equipments" [nzLabel]="equipment.serial ?? ''"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 12 }">
+      <nz-form-item>
+        <nz-form-label nzFor="rol" nzRequired>Insumos</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorTip">
+          <nz-select nzId="supplies" formControlName="supplies" [nzShowSearch]="true" nzPlaceHolder="Seleccionar" nzMode="multiple"  (ngModelChange)="calculateTotal()">
+            <nz-option [nzValue]="isEditing ? supply.id : supply" *ngFor="let supply of supplies" [nzLabel]="isEditing ? supply.model! : supply.model!"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 24}">
+      <nz-form-item>
+        <span>Total: {{total}}</span>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <ng-template #errorTip let-control>
+    <ng-container *ngIf="control.hasError('required')">Este campo es
+      obligatorio</ng-container>
+    <ng-container *ngIf="control.hasError('pattern')">formato de texto
+      invalido</ng-container>
+    <ng-container *ngIf="control.hasError('email')">Ingresa un correo válido</ng-container>
+  </ng-template>
+</form>
+<div *nzModalFooter>
+  @if (sale){
+  <div>
+    <span style="float:left;">Fecha de Creación: {{sale.createdAt | date: 'dd/MM/YYYY h:mm a'}}</span>
+  </div>
+  }
+  <button nz-button nzType="primary" (click)="validateAction()" [nzLoading]="loadingButton">
+    {{ isEditing ? "Actualizar" : "Crear" }}
+  </button>
+  <button nz-button nzType="default" (click)="destroyModal()">cerrar</button>
+
+</div>

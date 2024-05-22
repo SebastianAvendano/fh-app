@@ -3,30 +3,27 @@ import { AuthService } from '@services/auth/auth.service';
 import { FirebaseService } from '@services/firebase/firebase.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class EquipmentService {
-  private equipmentsCollection = 'equipments';
+export class SalesService {
+  private salesCollection = 'sales';
 
   private auth = inject(AuthService);
   private firebase = inject(FirebaseService);
 
   constructor() {}
 
-  getEquipments() {
-    return this.firebase.getList(this.equipmentsCollection);
+  getSales() {
+    return this.firebase.getList(this.salesCollection);
   }
 
-  createEquipment(data: any) {
+  createSale(data: any) {
     const user = this.auth.user;
-    return this.firebase.create(this.equipmentsCollection, {
+    return this.firebase.create( this.salesCollection, {
       ...data,
       deleted: false,
       createdBy: user()?.id,
     });
   }
 
-  async updateEquipment(data: any, id: string) {
-    return this.firebase.put(this.equipmentsCollection, id, data);
-  }
 }

@@ -1,3 +1,79 @@
-<p>
-  create-maintenance works!
-</p>
+<form nz-form [formGroup]="maintenanceForm" nzLayout="vertical">
+  <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 16, lg: 16 }">
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 12 }">
+      <nz-form-item>
+        <nz-form-label nzFor="client" nzRequired>Cliente</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorTip">
+          <nz-select nzId="client" formControlName="client" nzPlaceHolder="selecciona un cliente" (ngModelChange)="getEquipments($event)">
+            <nz-option [nzValue]="client.id" *ngFor="let client of clients" [nzLabel]="client.name + ' ' + client.lastName!"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 12 }">
+      <nz-form-item>
+        <nz-form-label nzFor="equipment" nzRequired>Equipo</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorTip">
+          <nz-select nzId="equipment" formControlName="equipment" nzPlaceHolder="selecciona un equipo" [nzShowSearch]="true">
+            <nz-option [nzValue]="equipment.id" *ngFor="let equipment of equipments" [nzLabel]="equipment.serial ?? ''"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 12 }">
+      <nz-form-item>
+        <nz-form-label nzFor="date" nzRequired>Fecha</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorTip">
+          <nz-date-picker formControlName="date" id="date" style="width: 100%;"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 12 }">
+      <nz-form-item>
+        <nz-form-label nzFor="amount" nzRequired>Valor</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorTip">
+          <input nz-input type="number" formControlName="amount" id="amount" placeholder="Valor" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 12 }">
+      <nz-form-item>
+        <nz-form-label nzFor="support">Soporte</nz-form-label>
+        <nz-form-control>
+          <label class="custom-file-upload span">
+            <span nz-icon nzType="upload"></span>
+            Subir archivo
+            <input type="file" formControlName="support" id="file" accept="application/pdf" hidden="true"
+              (change)="showPreview($event, 'support')" />
+          </label>
+          <div *ngIf="files.get('support')" class="file-info">
+            <span (click)="openView(maintenance?.support)" class="span" title="Ver Archivo">{{
+              files.get('support')?.file?.name
+              }}</span>
+            <span nz-icon nzType="delete" (click)="removeFile('support')" class="span"
+              title="Eliminar"></span>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <ng-template #errorTip let-control>
+    <ng-container *ngIf="control.hasError('required')">Este campo es
+      obligatorio</ng-container>
+    <ng-container *ngIf="control.hasError('pattern')">formato de texto
+      invalido</ng-container>
+    <ng-container *ngIf="control.hasError('email')">Ingresa un correo válido</ng-container>
+  </ng-template>
+</form>
+<div *nzModalFooter>
+  @if (maintenance){
+  <div>
+    <span style="float:left;">Fecha de Creación: {{maintenance.createdAt | date: 'dd/MM/YYYY h:mm a'}}</span>
+  </div>
+  }
+
+  <button nz-button nzType="default" (click)="destroyModal()">Cancelar</button>
+  <button nz-button nzType="primary" (click)="validateAction()" [nzLoading]="loadingButton">
+    {{ isEditing ? "Actualizar" : "Crear" }}
+  </button>
+</div>

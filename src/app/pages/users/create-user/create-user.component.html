@@ -1,75 +1,93 @@
 <form nz-form [formGroup]="userForm" nzLayout="vertical">
-  <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 16, lg: 16 }">
-    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
-      <nz-form-item>
-        <nz-form-label nzFor="name" nzRequired>Nombres</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorTip">
-          <input nz-input id="name" formControlName="name" placeholder="Nombres" #displayName />
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
-      <nz-form-item>
-        <nz-form-label nzFor="lastName" nzRequired>Apellidos</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorTip">
-          <input nz-input formControlName="lastName" id="lastName" placeholder="Apellidos" />
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
-      <nz-form-item>
-        <nz-form-label nzFor="rol" nzRequired>Rol</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorTip">
-          <nz-select nzId="rol" formControlName="rol" nzPlaceHolder="selecciona un rol">
-            <nz-option [nzValue]="role.value" *ngFor="let role of roles" [nzLabel]="role.text"></nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
-      <nz-form-item>
-        <nz-form-label nzFor="documentType" nzRequired>Tipo de identificación</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorTip">
-          <nz-select nzId="documentType" formControlName="documentType" nzPlaceHolder="Tipo de identificación">
-            <nz-option [nzValue]="document.value" *ngFor="let document of documentTypes"
-              [nzLabel]="document.text"></nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
-      <nz-form-item>
-        <nz-form-label nzFor="documentId" nzRequired>No. de identificación</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorTip">
-          <input nz-input formControlName="documentId" id="documentId" placeholder="Número de identificacion" />
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
-      <nz-form-item>
-        <nz-form-label nzFor="email" nzRequired>Correo</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorTip">
-          <input nz-input formControlName="email" id="email" placeholder="example@correo.com" />
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
-      <nz-form-item>
-        <nz-form-label nzFor="phoneNumber" nzRequired>Teléfono</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorTip">
-          <input nz-input formControlName="phoneNumber" id="phoneNumber" placeholder="Numero de celular" />
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-    <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
-      <nz-form-item>
-        <nz-form-label nzFor="address" nzRequired>Dirección</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorTip">
-          <input nz-input formControlName="address" id="address" placeholder="Cra 5 # 5 - 61" />
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-  </div>
+  <nz-tabset>
+    <nz-tab nzTitle="Inf. General">
+      <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 16, lg: 16 }">
+        <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
+          <nz-form-item>
+            <nz-form-label nzFor="name" nzRequired>Nombres</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorTip">
+              <input nz-input id="name" formControlName="name" placeholder="Nombres" #displayName />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
+          <nz-form-item>
+            <nz-form-label nzFor="lastName" nzRequired>Apellidos</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorTip">
+              <input nz-input formControlName="lastName" id="lastName" placeholder="Apellidos" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
+          <nz-form-item>
+            <nz-form-label nzFor="rol" nzRequired>Rol</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorTip">
+              <nz-select nzId="rol" formControlName="rol" nzPlaceHolder="selecciona un rol">
+                <nz-option [nzValue]="role.value" *ngFor="let role of roles" [nzLabel]="role.text"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
+          <nz-form-item>
+            <nz-form-label nzFor="documentType" nzRequired>Tipo de identificación</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorTip">
+              <nz-select nzId="documentType" formControlName="documentType" nzPlaceHolder="Tipo de identificación">
+                <nz-option [nzValue]="document.value" *ngFor="let document of documentTypes"
+                  [nzLabel]="document.text"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
+          <nz-form-item>
+            <nz-form-label nzFor="documentId" nzRequired>No. de identificación</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorTip">
+              <input nz-input formControlName="documentId" id="documentId" placeholder="Número de identificacion" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
+          <nz-form-item>
+            <nz-form-label nzFor="email" nzRequired>Correo</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorTip">
+              <input nz-input formControlName="email" id="email" placeholder="example@correo.com" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
+          <nz-form-item>
+            <nz-form-label nzFor="phoneNumber" nzRequired>Teléfono</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorTip">
+              <input nz-input formControlName="phoneNumber" id="phoneNumber" placeholder="Numero de celular" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }">
+          <nz-form-item>
+            <nz-form-label nzFor="address" nzRequired>Dirección</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorTip">
+              <input nz-input formControlName="address" id="address" placeholder="Cra 5 # 5 - 61" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </nz-tab>
+    @if (userType == "client") {
+    <nz-tab nzTitle="Equipos">
+      <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 24 }">
+        <nz-form-item>
+          <nz-form-label nzFor="rol" nzRequired>Equipos</nz-form-label>
+          <nz-form-control [nzErrorTip]="errorTip">
+            <nz-select nzId="equipments" formControlName="equipments" [nzShowSearch]="true" nzPlaceHolder="Seleccionar" nzMode="multiple">
+              <nz-option [nzValue]="equipment.id" *ngFor="let equipment of equipments" [nzLabel]="equipment.serial ?? ''"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </nz-tab>
+    }
+  </nz-tabset>
   <ng-template #errorTip let-control>
     <ng-container *ngIf="control.hasError('required')">Este campo es
       obligatorio</ng-container>
