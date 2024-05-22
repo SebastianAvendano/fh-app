@@ -13,6 +13,7 @@ export class UserModel {
   public createdAt?: Date;
   public updatedAt?: Date;
   public deleted?: boolean;
+  public equipments?: string[];
 
 
   constructor({
@@ -28,6 +29,7 @@ export class UserModel {
     deleted,
     updatedAt,
     id,
+    equipments
   }: IUser) {
     this.name = name;
     this.lastName = lastName;
@@ -41,6 +43,7 @@ export class UserModel {
     this.deleted = deleted;
     this.updatedAt = updatedAt;
     this.id = id;
+    this.equipments = equipments;
   }
 
   public copyWith({
@@ -56,6 +59,7 @@ export class UserModel {
     deleted,
     updatedAt,
     id,
+    equipments,
   }: IUser): UserModel {
     return new UserModel({
       name: name ?? this.name,
@@ -70,6 +74,7 @@ export class UserModel {
       deleted: deleted ?? this.deleted,
       updatedAt: updatedAt ?? this.updatedAt,
       id: id ?? this.id,
+      equipments: equipments ?? this.equipments,
     });
   }
 
@@ -95,6 +100,7 @@ export class UserModel {
       deleted: json['deleted'] != null ? json['deleted'] : false,
       updatedAt: json['updatedAt'] != null ? json['updatedAt'].toDate() : null,
       id: json['id'] != null ? json['id'] : '',
+      equipments: json['equipments'] != null ? json['equipments'] : null,
     });
   }
 
@@ -112,6 +118,7 @@ export class UserModel {
       deleted: this.deleted,
       updatedAt: this.updatedAt,
       id: this.id,
+      equipments: this.equipments,
     };
   }
 

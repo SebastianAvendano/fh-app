@@ -19,3 +19,6 @@ export const brands: TFiltersTable[] = [
 export type TUserType = 'admin' | 'client' | 'technical';
 export const BASE_PATH =
   'https://us-central1-fh-fotocopiadoras-del-huila.cloudfunctions.net/app';
+
+
+export const maxSizeFile: number = 2000000;

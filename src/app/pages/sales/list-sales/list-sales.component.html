@@ -1,0 +1,35 @@
+<div class="page-header">
+  <h1 class="page-title">Ventas</h1>
+  <button nz-button nzType="primary" (click)="createSale()" class="button">Crear producto</button>
+</div>
+
+<div class="table-container">
+  <nz-table #table nzSize='small' [nzData]="sales" [nzLoading]="loading" [nzPageSize]="5" class="nzTableResponsive"
+    nzBordered nzTableLayout="fixed">
+    <thead>
+      <tr>
+        <th *ngFor="let column of listOfColumns; let indexElement = index" [nzSortOrder]="column.sortOrder"
+          [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+          [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter" [nzFilterFn]="column.filterFn"
+          nzAlign="center" [nzWidth]="column.width" nzEllipsis>
+          {{ column.name }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sale of table.data, let i = index">
+        <td nzAlign="center" nzEllipsis>
+          {{ sale.amount | currency }}
+        </td>
+        <td nzAlign="center" nzEllipsis>
+          {{sale.createdAt | date}}
+        </td>
+        <td nzAlign="center" clas="btn-actions">
+          <button nz-button nzType="link" (click)="detail(sale)" class="button">
+            Detalles
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

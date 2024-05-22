@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, NgZone, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  NgZone,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -23,7 +29,6 @@ import { EquipmentModel } from '@models/models/equipment-model';
   ],
 })
 export default class ListEquipmentsComponent implements OnInit {
-
   equipments: EquipmentModel[] = [];
   loading: boolean = true;
 
@@ -63,8 +68,8 @@ export default class ListEquipmentsComponent implements OnInit {
   modalService = inject(NzModalService);
   equipmentService = inject(EquipmentService);
   ngZone = inject(NgZone);
-  cdr= inject(ChangeDetectorRef);
-  
+  cdr = inject(ChangeDetectorRef);
+
   constructor() {}
 
   ngOnInit(): void {
@@ -73,12 +78,14 @@ export default class ListEquipmentsComponent implements OnInit {
 
   async getEquipments() {
     this.equipmentService.getEquipments().onSnapshot((query) => {
-      this.equipments = query.docs.map((snap) => {return EquipmentModel.fromJson(snap.data())})
-  })
-  this.ngZone.run(() => {
-    this.cdr.detectChanges();
-    this.loading = false
-  });
+      this.equipments = query.docs.map((snap) => {
+        return EquipmentModel.fromJson(snap.data());
+      });
+      this.ngZone.run(() => {
+        this.cdr.detectChanges();
+        this.loading = false;
+      });
+    });
   }
 
   createEquipment(): void {
